@@ -3,6 +3,8 @@ import {
   FRIEND_GET_SUCCESS,
   MESSAGE_GET_SUCCESS,
   MESSAGE_SEND_SUCCESS,
+  THEME_SET_SUCCESS,
+  THEME_GET_SUCCESS,
 } from "../types/messengerType";
 
 export const getFriends = () => async (dispatch) => {
@@ -41,4 +43,47 @@ export const getMessage = (id) => {
       console.log(e.response.data);
     }
   };
+};
+
+export const ImageMessageSend = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      "/api/messenger/image-message-send",
+      data
+    );
+    dispatch({ type: MESSAGE_SEND_SUCCESS, payload: response.data.message });
+  } catch (e) {
+    console.log(e.response.data);
+  }
+};
+
+export const seenMessage = (msg) => async (dispatch) => {
+  try {
+    const response = await axios.post("/api/messenger/seen-message", msg);
+    console.log(response.data);
+  } catch (e) {
+    console.log(e.response.message);
+  }
+};
+
+export const updateMessage = (msg) => async (dispatch) => {
+  try {
+    const response = await axios.post("/api/messenger/delivered-message", msg);
+    console.log(response.data);
+  } catch (e) {
+    console.log(e.response.message);
+  }
+};
+
+export const getTheme = () => async (dispatch) => {
+  const theme = localStorage.getItem("theme");
+  dispatch({
+    type: "THEME_GET_SUCCESS",
+    payload: { theme: theme ? theme : "white" },
+  });
+};
+
+export const themeSet = (theme) => async (dispatch) => {
+  localStorage.setItem("theme", theme);
+  dispatch({ type: "THEME_SET_SUCCESS", payload: { theme: theme } });
 };

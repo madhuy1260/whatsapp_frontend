@@ -11,6 +11,10 @@ function RightSide({
   sendMessage,
   message,
   scrollRef,
+  emojiSend,
+  imageSend,
+  activeUser,
+  typingMessage,
 }) {
   return (
     <div className="col-9">
@@ -23,8 +27,20 @@ function RightSide({
                 <div className="image-name">
                   <div className="image">
                     <img src={`/image/${currentFriend.image}`} alt="" />
+                    {activeUser &&
+                    activeUser.length > 0 &&
+                    activeUser.some(
+                      (user) => user.userId === currentFriend._id
+                    ) ? (
+                      <div className="active-icon"></div>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                  <div className="name">{currentFriend.userName}</div>
+
+                  <div className="name">
+                    <h3> {currentFriend.userName}</h3>
+                  </div>
                 </div>
                 <div className="icons">
                   <div className="icon">
@@ -44,16 +60,19 @@ function RightSide({
                 message={message}
                 currentFriend={currentFriend}
                 scrollRef={scrollRef}
+                typingMessage={typingMessage}
               />
               <MessageSend
                 inputHandler={inputHandler}
                 newMessage={newMessage}
                 sendMessage={sendMessage}
+                emojiSend={emojiSend}
+                imageSend={imageSend}
               />
             </div>
           </div>
           <div className="col-4">
-            <FriendInfo currentFriend={currentFriend} />
+            <FriendInfo currentFriend={currentFriend} activeUser={activeUser} />
           </div>
         </div>
       </div>

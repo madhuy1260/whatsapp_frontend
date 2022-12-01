@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCaretSquareDown } from "react-icons/fa";
 
-function FriendInfo({ currentFriend }) {
+function FriendInfo({ currentFriend, activeUser }) {
   return (
     <div className="friend-info">
       <input type="checkbox" id="gallery" />
@@ -9,7 +9,14 @@ function FriendInfo({ currentFriend }) {
         <div className="image">
           <img src={`/image/${currentFriend.image}`} alt="" />
         </div>
-        <div className="active-user">Active</div>
+        {activeUser &&
+        activeUser.length > 0 &&
+        activeUser.some((user) => user.userId === currentFriend._id) ? (
+          <div className="active-user">Active</div>
+        ) : (
+          ""
+        )}
+
         <div className="name">
           <h4>{currentFriend.userName}</h4>
         </div>
