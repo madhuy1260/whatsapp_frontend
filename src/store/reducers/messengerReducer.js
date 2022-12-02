@@ -12,7 +12,10 @@ import {
   SEEN_ALL,
   THEME_GET_SUCCESS,
   THEME_SET_SUCCESS,
+  NEW_USER_ADD,
+  NEW_USER_ADD_CLEAR,
 } from "../types/messengerType";
+import { LOGOUT_SUCCESS } from "../types/authType";
 
 const messengerState = {
   friends: [],
@@ -20,6 +23,7 @@ const messengerState = {
   messageSendSuccess: false,
   message_get_success: false,
   themeMood: "",
+  new_user_add: "",
 };
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -93,6 +97,21 @@ export const messengerReducer = (state = messengerState, action) => {
     );
     state.friends[index].msgInfo.status = "seen";
     return { ...state };
+  }
+  if (type === LOGOUT_SUCCESS) {
+    return {
+      ...state,
+      friends: [],
+      message: [],
+      messageSendSuccess: false,
+      message_get_success: false,
+    };
+  }
+  if (type === NEW_USER_ADD) {
+    return { ...state, new_user_add: payload.new_user_add };
+  }
+  if (type === NEW_USER_ADD_CLEAR) {
+    return { ...state, new_user_add: "" };
   }
   return state;
 };

@@ -23,6 +23,7 @@ import sendingSound from "../audio/sending.mp3";
 import {
   MESSAGE_SEND_SUCCESS,
   MESSAGE_SEND_SUCCESS_CLEAR,
+  NEW_USER_ADD_CLEAR,
 } from "../store/types/messengerType";
 
 const Messenger = () => {
@@ -45,6 +46,7 @@ const Messenger = () => {
     messageSendSuccess,
     message_get_success,
     themeMood,
+    new_user_add,
   } = useSelector((state) => state.messenger);
   const { myInfo } = useSelector((state) => state.auth);
 
@@ -116,6 +118,10 @@ const Messenger = () => {
       );
       setActiveUser(filterUser);
     });
+    //getting recent added user from socket to the friend list
+    socket.current.on("new_user_add", (data) => {
+      dispatch({ type: "NEW_USER_ADD", payload: { new_user_add: data } });
+    });
   }, []);
 
   const dispatch = useDispatch();
@@ -167,7 +173,10 @@ const Messenger = () => {
 
   useEffect(() => {
     dispatch(getFriends());
-  }, []);
+    dispatch({
+      type: NEW_USER_ADD_CLEAR,
+    });
+  }, [new_user_add]);
 
   useEffect(() => {
     if (friends && friends.length > 0) {

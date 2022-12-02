@@ -72,7 +72,11 @@ function RightSide({
             </div>
           </div>
           <div className="col-4">
-            <FriendInfo currentFriend={currentFriend} activeUser={activeUser} />
+            <FriendInfo
+              currentFriend={currentFriend}
+              activeUser={activeUser}
+              message={message}
+            />
           </div>
         </div>
       </div>
